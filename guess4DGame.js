@@ -12,6 +12,7 @@ for(var i=0;i<4;i++){
   Ans[rand] = temp;
 }
 while(!win){
+
   outer:do{
     var G=readline.questionInt("Please input 4 digits? ");
     var Gstr = G.toString();
@@ -28,7 +29,6 @@ while(!win){
     }
   }while(G<100 || G>=10000);
 
-
   var countA=0,countB=0;
   for(j=0;j<4;j++){
     for( k=0;k<4;k++){
@@ -39,6 +39,7 @@ while(!win){
       }
     }
   }
+
   for( j=0;j<4;j++){
     for( k=0;k<4;k++){
       if(j==k){
@@ -49,6 +50,7 @@ while(!win){
       }
     }
   }
+  
   console.log(countA+"A"+countB+"B");
     if(countA == 4){
     console.log("You Win!")
