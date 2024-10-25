@@ -1,4 +1,4 @@
-var ary2d=[50][50]
+var  ary2d=new Array(50) ;
 
 for(var j=0;j<=50;j++){
     for(var k=0;k<=50;k++){
