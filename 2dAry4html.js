@@ -1,13 +1,4 @@
-var  ary2d=new Array(50) ;
 
-for(var j=0;j<=50;j++){
-    for(var k=0;k<=50;k++){
-        var rand = Math.floor(Math.random()*1);
-        
-        ary2d[j][k]= rand;
-    }
-
-}
 //max _row=0...4, _col=0...5
 // [1][2]=>
 // [0][1],[0][2],[0][3]     =>[_row-1][_col-1],[_row-1][_col],[_row-1][_col+1]

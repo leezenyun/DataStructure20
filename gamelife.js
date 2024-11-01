@@ -1,4 +1,5 @@
 
+
 const Live = 1;
 const Dead = 0;
 
@@ -16,9 +17,17 @@ class Life{
         }
         
     }
-    initialize = function(){
-        this.grid[1][1] = Live;
-        this.grid[1][2] = this.grid[1][3] = this.grid[1][4] =Live; 
+    initialize = function(random){
+        if(random == true){
+            for(var _row=0;_row < this.row;_row++){
+                for(var _col=0;_col < this.col;_col++){
+                    this.grid[_row][_col] = (Math.random()<0.3) ? Live : Dead;
+                }
+            }
+        }else{
+            this.grid[1][1] = Live;
+            this.grid[1][2] = this.grid[1][3] = this.grid[1][4] =Live; 
+        }
     }
 
     update = function(){
@@ -67,15 +76,86 @@ class Life{
             return this.grid[row][col];
         }
     }
+
+    draw = function(_canvas){
+        var canvas = document.getElementById(_canvas).getContext("2d");
+        this.size=Math.min(canvas.canvas.height/this.row, canvas.canvas.width/this.col);
+        for(var _row=0;_row<this.row;_row++){
+            for(var _col=0;_col<this.col;_col++){
+                //ar2d[_row][_col]=>0,1
+                if(this.grid[_row][_col]==Live){
+                    canvas.fillStyle="#ff0000"
+                }else{
+                    canvas.fillStyle="#ffffff"
+                }
+                //600/5=>120  coordinate x,y , width, heigth
+                canvas.fillRect(_col*this.size,_row*this.size,this.size,this.size);
+                canvas.strokeRect(_col*this.size,_row*this.size,this.size,this.size);
+            }
+        }
+    }
+    drawPoint = function(_canvas,_row,_col){
+        var canvas = document.getElementById(_canvas).getContext("2d");
+        //this.size=Math.min(canvas.canvas.height/this.row, canvas.canvas.width/this.col);
+        if(this.grid[_row][_col]==Live){
+            canvas.fillStyle="#ff0000"
+        }else{
+            canvas.fillStyle="#ffffff"
+        }
+        canvas.fillRect(_col*this.size,_row*this.size,this.size,this.size);
+        canvas.strokeRect(_col*this.size,_row*this.size,this.size,this.size);
+    }
 }
+
+
 
 // Life.prototype.update= function(){
 
 // }
 
+function tonext(){
+    myGame.update();
+    myGame.draw("map")
+}
 
-var myGame = new Life(10,10);
+function mouseClick(event){
+   var _row = Math.floor(event.offsetY/myGame.size);
+   var _col = Math.floor(event.offsetX/myGame.size);
+//    if(myGame.getStatusAt(_row,_col)==Live){
+//     myGame.grid[_row][_col]=Dead;
+//    }else{
+//     myGame.grid[_row][_col]=Live;
+//    }
+
+   //myGame.grid[_row][_col] = (myGame.getStatusAt(_row,_col)==Live) ? Dead : Live;
+
+   myGame.grid[_row][_col] = Number(!myGame.getStatusAt(_row,_col)); 
+
+
+   //    if() else ...
+//    ()? :
+   myGame.drawPoint("map",_row,_col);
+}
+
+function random(){
+   myGame.initialize(true);
+   myGame.draw("map");
+}
+
+var myTime;
+function run(){
+   var step = document.getElementById("step").value;
+   myTime = setInterval(tonext, Number(step));
+}
+function stop(){
+    clearInterval(myTime);
+}
+
+
+var myGame = new Life(75,75);
 var myGame2 = new Life(100,100);
 
 myGame.initialize();
-myGame.update();
+myGame.draw("map")
+
+var runnng = setTimeout(tonext, 1000);
