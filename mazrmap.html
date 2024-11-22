@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Generator</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 0 auto;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="mazeCanvas" width="500" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById('mazeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const cols = 20;
+        const rows = 20;
+        const cellSize = canvas.width / cols;
+
+        // Directions (right, down, left, up)
+        const directions = [
+            { dx: 1, dy: 0 },
+            { dx: 0, dy: 1 },
+            { dx: -1, dy: 0 },
+            { dx: 0, dy: -1 }
+        ];
+
+        // Create a grid to track the state of each cell (walls)
+        let grid = Array.from({ length: rows }, () => Array(cols).fill(true));
+        
+        // Function to draw the maze
+        function drawMaze() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    if (grid[row][col]) {
+                        ctx.fillStyle = 'black'; // Wall
+                        ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                    }
+                }
+            }
+        }
+
+        // Recursive function to generate maze
+        function generateMaze(x, y) {
+            grid[y][x] = false; // Mark the cell as visited
+            
+            // Shuffle directions to ensure randomness
+            const shuffledDirections = directions.sort(() => Math.random() - 0.5);
+
+            for (const direction of shuffledDirections) {
+                const newX = x + direction.dx;
+                const newY = y + direction.dy;
+
+                const wallX = x + direction.dx / 2;
+                const wallY = y + direction.dy / 2;
+
+                // Check if new position is within bounds and not visited
+                if (newX >= 0 && newX < cols && newY >= 0 && newY < rows && grid[newY][newX]) {
+                    // Remove wall between the current cell and the new cell
+                    grid[wallY][wallX] = false;
+                    // Recursively visit the new cell
+                    generateMaze(newX, newY);
+                }
+            }
+        }
+
+        // Start generating the maze from the top-left corner
+        generateMaze(0, 0);
+        drawMaze();
+    </script>
+</body>
+</html>
