@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>迷宮尋路</title>
+    <style>
+        /* 設置迷宮顯示樣式 */
+        table {
+            border-collapse: collapse; /* 去除表格間隙 */
+        }
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc; /* 設置單元格邊框 */
+        }
+        .wall {
+            background-color: #000; /* 牆壁顯示為黑色 */
+        }
+        .path {
+            background-color: #ddd; /* 走過的路徑顯示為灰色 */
+        }
+        .start {
+            background-color: green; /* 起點顯示為綠色 */
+        }
+        .end {
+            background-color: red; /* 終點顯示為紅色 */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>迷宮尋路</h1>
+    <!-- 當按下按鈕時，觸發 startPathfinding() 函數開始尋路 -->
+    <button onclick="startPathfinding()">開始尋路</button> 
+
+    <div id="maze-container"></div> <!-- 用來顯示迷宮的區塊 -->
+    <div id="end-message" style="display: none;">恭喜！到達終點！</div> <!-- 顯示終點訊息，預設隱藏 -->
+
+    <script src="mazedemo.js"></script> <!-- 引入 JavaScript 程式檔 -->
+</body>
+</html>
